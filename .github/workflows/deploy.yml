@@ -66,6 +66,7 @@ jobs:
           cp car-plastic-vinyl-cleaner.html site/car-plastic-vinyl-cleaner.html
           cp car-ac-interior-cleaner.html site/car-ac-interior-cleaner.html
           cp car-dashboard-polish-dressing.html site/car-dashboard-polish-dressing.html
+          cp car-glass-water-repellent.html site/car-glass-water-repellent.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
