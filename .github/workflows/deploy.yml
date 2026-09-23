@@ -35,14 +35,15 @@ jobs:
           cp shampoo.html site/shampoo.html
           cp cream.html site/cream.html
           cp lotion.html site/lotion.html
+          cp facewash.html site/facewash.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
           s=p.read_text(encoding="utf-8")
-          css='''<style>.formula-library-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px;background:linear-gradient(135deg,#7c3aed,#db2777)}.formula-library-button.shampoo{background:linear-gradient(135deg,#0f766e,#2563eb)}.formula-library-button.cream{background:linear-gradient(135deg,#be185d,#7c3aed)}.formula-library-button.lotion{background:linear-gradient(135deg,#047857,#0891b2)}.formula-library-button:hover{transform:translateY(-1px)}</style>'''
+          css='''<style>.formula-library-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px;background:linear-gradient(135deg,#7c3aed,#db2777)}.formula-library-button.shampoo{background:linear-gradient(135deg,#0f766e,#2563eb)}.formula-library-button.cream{background:linear-gradient(135deg,#be185d,#7c3aed)}.formula-library-button.lotion{background:linear-gradient(135deg,#047857,#0891b2)}.formula-library-button.facewash{background:linear-gradient(135deg,#0369a1,#4f46e5)}.formula-library-button:hover{transform:translateY(-1px)}</style>'''
           if "formula-library-button" not in s:
               s=s.replace("</head>",css+"</head>",1)
-          links=[("soap.html","🧼 সাবান ফর্মুলা",""),("shampoo.html","🧴 শ্যাম্পু ফর্মুলা","shampoo"),("cream.html","🧴 ক্রিম ফর্মুলা","cream"),("lotion.html","🧴 লোশন ফর্মুলা","lotion")]
+          links=[("soap.html","🧼 সাবান ফর্মুলা",""),("shampoo.html","🧴 শ্যাম্পু ফর্মুলা","shampoo"),("cream.html","🧴 ক্রিম ফর্মুলা","cream"),("lotion.html","🧴 লোশন ফর্মুলা","lotion"),("facewash.html","🫧 ফেসওয়াশ ফর্মুলা","facewash")]
           for href,label,cls in links:
               if href not in s:
                   button=f'<a href="{href}" class="formula-library-button {cls}" aria-label="{label}">{label}</a>'
@@ -53,6 +54,7 @@ jobs:
           test -f site/shampoo.html
           test -f site/cream.html
           test -f site/lotion.html
+          test -f site/facewash.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
