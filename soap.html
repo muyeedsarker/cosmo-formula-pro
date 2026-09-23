@@ -22,7 +22,7 @@ ul{padding-left:20px;margin:6px 0}li{margin:4px 0}.note{background:#fff7ed;borde
 <main class="wrap">
 <div class="note"><b>ব্যবহারের নিয়ম:</b> নিচের ফর্মুলাগুলো cosmetic/skin-care formulation হিসেবে দেওয়া হয়েছে। এগুলো কোনো রোগের চিকিৎসার নিশ্চয়তা নয়। নতুন batch করার আগে ছোট test batch, raw-material specification ও stability/skin compatibility পরীক্ষা করুন। Lye/NaOH/KOH cold-process formula এই লাইব্রেরিতে ইচ্ছাকৃতভাবে দেওয়া হয়নি—সঠিক SAP ও safety calculation ছাড়া এগুলো ঝুঁকিপূর্ণ।</div>
 <div class="tools"><input id="q" placeholder="সাবানের নাম বা উপাদান লিখে খুঁজুন…"><select id="cat"><option value="">সব ক্যাটাগরি</option><option>Skin Care</option><option>Herbal</option><option>Brightening</option><option>Exfoliating</option><option>Moisturizing</option></select><label style="display:flex;align-items:center;gap:8px;font-weight:700">Batch (kg)<input id="kg" type="number" min="0.1" step="0.1" value="1" style="width:100px;min-width:100px;flex:0 0 auto"></label></div>
-<div id="count"/> class="small"></div><div id="grid" class="grid"></div>
+<div id="count" class="small"></div><div id="grid" class="grid"></div>
 </main>
 <script>
 const formulas=[
@@ -39,10 +39,10 @@ const formulas=[
 {name:"ওটমিল সেনসিটিভ স্কিন",cat:"Skin Care",base:"Melt & Pour base",items:["Soap base 945g","Colloidal oatmeal 20g","Aloe vera powder 5g","Glycerin 25g","Fragrance 0–2g"],steps:["Base melt করুন","Oatmeal ও aloe disperse করুন","Glycerin যোগ করুন","Sensitive-skin product হলে fragrance বাদ দেওয়া যায়","Mould করে set করুন"]},
 {name:"রোজ হারবাল",cat:"Herbal",base:"Melt & Pour base",items:["Soap base 940g","Rose powder 10g","Oatmeal 10g","Glycerin 25g","Rose fragrance 2–5g"],steps:["Base melt করুন","Powders sieve করুন","Glycerin mix করুন","Fragrance শেষে দিন","Mould করে set করুন"]}
 ];
-function parseItem(x){let m=x.match(/^(.*?)(\\s+)([0-9.]+)(g|kg)$/i);if(!m)return x;return m[1]+" "+(Number(m[3])*Number(document.getElementById("kg").value||1)).toFixed(2).replace(/\\.00$/,"")+" "+m[4]} 
+function parseItem(x){const kg=Number(document.getElementById("kg").value||1);let r=x.match(/^(.*?)(?:\\s+)([0-9.]+)\\s*[–-]\\s*([0-9.]+)\\s*(g|kg)$/i);if(r)return r[1]+" "+(Number(r[2])*kg).toFixed(2).replace(/\\.00$/,"")+"–"+(Number(r[3])*kg).toFixed(2).replace(/\\.00$/,"")+" "+r[4];let m=x.match(/^(.*?)(?:\\s+)([0-9.]+)\\s*(g|kg)$/i);if(!m)return x;return m[1]+" "+(Number(m[2])*kg).toFixed(2).replace(/\\.00$/,"")+" "+m[3]}
 function render(){let q=document.getElementById("q").value.toLowerCase(),c=document.getElementById("cat").value;
 let a=formulas.filter(x=>(!c||x.cat===c)&&(!q||(x.name+x.cat+x.items.join(" ")).toLowerCase().includes(q)));
 document.getElementById("count").textContent=a.length+"টি ফর্মুলা দেখানো হচ্ছে";
-document.getElementById("grid").innerHTML=a.map(x=>'<article class="card"><span class="badge">'+x.cat+'</span><h2>'+x.name+'</h2><div class="small">Batch: প্রায় 1 kg • Base: '+x.base+'</div><h3>উপাদান</h3><ul>'+x.items.map(i=>'<li>'+parseItem(i)+'</li>').join("")+'</ul><h3>প্রস্তুত প্রণালী</h3><ol>'+x.steps.map(s=>'<li>'+s+'</li>').join("")+'</ol></article>').join("")||'<div class="card">কোনো ফর্মুলা পাওয়া যায়নি।</div>'}
+document.getElementById("grid").innerHTML=a.map(x=>'<article class="card"><span class="badge">'+x.cat+'</span><h2>'+x.name+'</h2><div class="small">Batch: '+Number(document.getElementById("kg").value||1)+' kg • Base: '+x.base+'</div><div class="small" style="margin-top:6px">পরিমাণ batch অনুযায়ী স্বয়ংক্রিয়ভাবে বদলাবে।</div></div><h3>উপাদান</h3><ul>'+x.items.map(i=>'<li>'+parseItem(i)+'</li>').join("")+'</ul><h3>প্রস্তুত প্রণালী</h3><ol>'+x.steps.map(s=>'<li>'+s+'</li>').join("")+'</ol></article>').join("")||'<div class="card">কোনো ফর্মুলা পাওয়া যায়নি।</div>'}
 document.getElementById("q").oninput=render;document.getElementById("cat").onchange=render;document.getElementById("kg").oninput=render;render();
 </script></body></html>
