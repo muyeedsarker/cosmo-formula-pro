@@ -18,6 +18,18 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Inject global language system
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          tag='<script src="/cosmo-formula-pro/assets/js/global-language.js" defer></script>'
+          for p in Path('.').rglob('*.html'):
+              if '.git' in p.parts: continue
+              s=p.read_text(encoding='utf-8')
+              if 'assets/js/global-language.js' not in s:
+                  s=s.replace('</head>', tag+'\n</head>',1)
+                  p.write_text(s,encoding='utf-8')
+          PY
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
