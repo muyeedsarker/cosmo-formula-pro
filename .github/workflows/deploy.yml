@@ -68,6 +68,7 @@ jobs:
           cp car-dashboard-polish-dressing.html site/car-dashboard-polish-dressing.html
           cp car-glass-water-repellent.html site/car-glass-water-repellent.html
           cp car-antistatic-interior-cleaner.html site/car-antistatic-interior-cleaner.html
+          cp face-mask.html site/face-mask.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
