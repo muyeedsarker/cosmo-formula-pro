@@ -15,13 +15,13 @@ input{flex:1;min-width:220px}.grid{display:grid;grid-template-columns:repeat(aut
 h2{font-size:20px;margin:10px 0 6px}h3{font-size:15px;margin:14px 0 7px}
 ul{padding-left:20px;margin:6px 0}li{margin:4px 0}.note{background:#fff7ed;border-left:4px solid #f97316;padding:12px;border-radius:8px;margin:18px 0}
 .small{font-size:13px;color:#667085}.home{color:#fff;text-decoration:none;display:inline-block;margin-top:10px}
-</style>
+button{padding:9px 13px;border:1px solid #ddd;border-radius:9px;background:#fff;font-weight:700;cursor:pointer}button:hover{transform:translateY(-1px)}\n</style>
 </head>
 <body>
 <header><div class="wrap"><h1>🧼 Soap Formula Library</h1><div class="sub">Cosmo Formula Pro — সাবান তৈরির ফর্মুলা, উপাদান ও প্রস্তুত প্রণালী</div><a class="home" href="index.html">← মূল অ্যাপে ফিরে যান</a></div></header>
 <main class="wrap">
 <div class="note"><b>ব্যবহারের নিয়ম:</b> নিচের ফর্মুলাগুলো cosmetic/skin-care formulation হিসেবে দেওয়া হয়েছে। এগুলো কোনো রোগের চিকিৎসার নিশ্চয়তা নয়। নতুন batch করার আগে ছোট test batch, raw-material specification ও stability/skin compatibility পরীক্ষা করুন। Lye/NaOH/KOH cold-process formula এই লাইব্রেরিতে ইচ্ছাকৃতভাবে দেওয়া হয়নি—সঠিক SAP ও safety calculation ছাড়া এগুলো ঝুঁকিপূর্ণ।</div>
-<div class="tools"><input id="q" placeholder="সাবানের নাম বা উপাদান লিখে খুঁজুন…"><select id="cat"><option value="">সব ক্যাটাগরি</option><option>Skin Care</option><option>Herbal</option><option>Brightening</option><option>Exfoliating</option><option>Moisturizing</option></select><label style="display:flex;align-items:center;gap:8px;font-weight:700">Batch (kg)<input id="kg" type="number" min="0.1" step="0.1" value="1" style="width:100px;min-width:100px;flex:0 0 auto"></label></div>
+<div class="tools"><input id="q" placeholder="সাবানের নাম বা উপাদান লিখে খুঁজুন…"><select id="cat"><option value="">সব ক্যাটাগরি</option><option>Skin Care</option><option>Herbal</option><option>Brightening</option><option>Exfoliating</option><option>Moisturizing</option></select><label style="display:flex;align-items:center;gap:8px;font-weight:700">Batch (kg)<input id="kg" type="number" min="0.1" step="0.1" value="1" style="width:100px;min-width:100px;flex:0 0 auto"></label><div id="quick" style="display:flex;gap:6px;flex-wrap:wrap;width:100%"><b style="width:100%">দ্রুত নির্বাচন:</b><button type="button" data-kg="1">1 kg</button><button type="button" data-kg="2">2 kg</button><button type="button" data-kg="3">3 kg</button><button type="button" data-kg="5">5 kg</button><button type="button" data-kg="10">10 kg</button></div></div>
 <div id="count" class="small"></div><div id="grid" class="grid"></div>
 </main>
 <script>
@@ -44,5 +44,5 @@ function render(){let q=document.getElementById("q").value.toLowerCase(),c=docum
 let a=formulas.filter(x=>(!c||x.cat===c)&&(!q||(x.name+x.cat+x.items.join(" ")).toLowerCase().includes(q)));
 document.getElementById("count").textContent=a.length+"টি ফর্মুলা দেখানো হচ্ছে";
 document.getElementById("grid").innerHTML=a.map(x=>'<article class="card"><span class="badge">'+x.cat+'</span><h2>'+x.name+'</h2><div class="small">Batch: '+Number(document.getElementById("kg").value||1)+' kg • Base: '+x.base+'</div><div class="small" style="margin-top:6px">পরিমাণ batch অনুযায়ী স্বয়ংক্রিয়ভাবে বদলাবে।</div></div><h3>উপাদান</h3><ul>'+x.items.map(i=>'<li>'+parseItem(i)+'</li>').join("")+'</ul><h3>প্রস্তুত প্রণালী</h3><ol>'+x.steps.map(s=>'<li>'+s+'</li>').join("")+'</ol></article>').join("")||'<div class="card">কোনো ফর্মুলা পাওয়া যায়নি।</div>'}
-document.getElementById("q").oninput=render;document.getElementById("cat").onchange=render;document.getElementById("kg").oninput=render;render();
+document.getElementById("q").oninput=render;document.getElementById("cat").onchange=render;document.getElementById("kg").oninput=render;document.querySelectorAll("#quick button").forEach(b=>b.onclick=()=>{document.getElementById("kg").value=b.dataset.kg;render()});render();
 </script></body></html>
