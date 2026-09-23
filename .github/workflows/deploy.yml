@@ -64,6 +64,7 @@ jobs:
           cp car-metal-chrome-polish.html site/car-metal-chrome-polish.html
           cp car-odor-eliminator.html site/car-odor-eliminator.html
           cp car-plastic-vinyl-cleaner.html site/car-plastic-vinyl-cleaner.html
+          cp car-ac-interior-cleaner.html site/car-ac-interior-cleaner.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
