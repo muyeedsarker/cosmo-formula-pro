@@ -56,6 +56,7 @@ jobs:
           cp car-interior-cleaner.html site/car-interior-cleaner.html
           cp car-tire-wheel-cleaner.html site/car-tire-wheel-cleaner.html
           cp car-glass-windshield-cleaner.html site/car-glass-windshield-cleaner.html
+          cp car-polish-wax.html site/car-polish-wax.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
