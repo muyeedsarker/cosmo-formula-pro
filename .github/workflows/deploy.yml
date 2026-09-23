@@ -23,11 +23,30 @@ jobs:
 
       - name: Extract website
         run: |
-          rm -rf site
+          rm -rf site extracted
           mkdir -p site
           unzip -q cosmo-formula-pro-redesigned.zip -d extracted
           cp -R extracted/cosmo-formula-pro/. site/
           test -f site/index.html
+
+      - name: Add Soap Formula Library
+        run: |
+          cp soap.html site/soap.html
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("site/index.html")
+          s=p.read_text(encoding="utf-8")
+          if "soap.html" not in s:
+              button='''<a href="soap.html" class="soap-formula-button" aria-label="Soap Formula Library">🧼 সাবান ফর্মুলা</a>'''
+              css='''<style>.soap-formula-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px}.soap-formula-button:hover{transform:translateY(-1px)}</style>'''
+              s=s.replace("</head>",css+"</head>",1)
+              if "</body>" in s:
+                  s=s.replace("</body>",button+"</body>",1)
+              else:
+                  s+=button
+              p.write_text(s,encoding="utf-8")
+          PY
+          test -f site/soap.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
