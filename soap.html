@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Soap Formula Library — Cosmo Formula Pro</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0;background:#f7f8fc;color:#182033}
+header{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;padding:24px 16px;position:sticky;top:0;z-index:5}
+h1{margin:0 0 6px;font-size:28px}.sub{opacity:.9}
+.wrap{max-width:1100px;margin:auto;padding:18px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+input,select{padding:12px;border:1px solid #ddd;border-radius:10px;background:#fff;font-size:15px}
+input{flex:1;min-width:220px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.card{background:#fff;border:1px solid #e8e8ef;border-radius:16px;padding:16px;box-shadow:0 4px 18px #0000000a}
+.badge{display:inline-block;background:#f3e8ff;color:#6b21a8;padding:4px 8px;border-radius:999px;font-size:12px}
+h2{font-size:20px;margin:10px 0 6px}h3{font-size:15px;margin:14px 0 7px}
+ul{padding-left:20px;margin:6px 0}li{margin:4px 0}.note{background:#fff7ed;border-left:4px solid #f97316;padding:12px;border-radius:8px;margin:18px 0}
+.small{font-size:13px;color:#667085}.home{color:#fff;text-decoration:none;display:inline-block;margin-top:10px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>🧼 Soap Formula Library</h1><div class="sub">Cosmo Formula Pro — সাবান তৈরির ফর্মুলা, উপাদান ও প্রস্তুত প্রণালী</div><a class="home" href="index.html">← মূল অ্যাপে ফিরে যান</a></div></header>
+<main class="wrap">
+<div class="note"><b>ব্যবহারের নিয়ম:</b> নিচের ফর্মুলাগুলো cosmetic/skin-care formulation হিসেবে দেওয়া হয়েছে। এগুলো কোনো রোগের চিকিৎসার নিশ্চয়তা নয়। নতুন batch করার আগে ছোট test batch, raw-material specification ও stability/skin compatibility পরীক্ষা করুন। Lye/NaOH/KOH cold-process formula এই লাইব্রেরিতে ইচ্ছাকৃতভাবে দেওয়া হয়নি—সঠিক SAP ও safety calculation ছাড়া এগুলো ঝুঁকিপূর্ণ।</div>
+<div class="tools"><input id="q" placeholder="সাবানের নাম বা উপাদান লিখে খুঁজুন…"><select id="cat"><option value="">সব ক্যাটাগরি</option><option>Skin Care</option><option>Herbal</option><option>Brightening</option><option>Exfoliating</option><option>Moisturizing</option></select></div>
+<div id="count" class="small"></div><div id="grid" class="grid"></div>
+</main>
+<script>
+const formulas=[
+{name:"চুলকানি কেয়ার হারবাল",cat:"Herbal",base:"Melt & Pour soap base",items:["Soap base 900g","Neem powder 20g","Aloe vera powder 5g","Oatmeal powder 15g","Glycerin 20g","Fragrance 2–5g"],steps:["Base ছোট টুকরো করে melt করুন","Powder উপাদানগুলো sieve করে মেশান","Glycerin যোগ করে ভালোভাবে mix করুন","শেষে cosmetic-grade fragrance যোগ করুন","Mould-এ ঢেলে 2–4 ঘণ্টা সেট করুন"]},
+{name:"ব্রণ কেয়ার চারকোল",cat:"Skin Care",base:"Melt & Pour soap base",items:["Soap base 920g","Activated charcoal 10g","Kaolin clay 20g","Aloe vera powder 5g","Glycerin 20g","Fragrance 2–5g"],steps:["Base melt করুন","Charcoal ও clay অল্প base-এর সঙ্গে slurry করুন","মূল batch-এ মিশিয়ে homogenize করুন","Fragrance শেষে দিন","Mould করে set করুন"]},
+{name:"মেছতা/দাগ কেয়ার",cat:"Brightening",base:"White melt & pour base",items:["Soap base 930g","Licorice powder 10g","Oatmeal 15g","Aloe vera powder 5g","Glycerin 20g","Fragrance 2–5g"],steps:["Base melt করুন","Dry ingredients sieve করুন","ধীরে ধীরে mix করুন","Fragrance যোগ করুন","Mould-এ ঢেলে set করুন"]},
+{name:"Skin Brightening Care",cat:"Brightening",base:"White melt & pour base",items:["Soap base 930g","Licorice extract/powder 10g","Kaolin clay 10g","Oatmeal 10g","Glycerin 25g","Fragrance 2–5g"],steps:["Base melt করুন","Clay ও powder disperse করুন","Glycerin যোগ করুন","Fragrance শেষে দিন","Mould করে set করুন"]},
+{name:"হলুদ হারবাল",cat:"Herbal",base:"Melt & Pour base",items:["Soap base 940g","Turmeric powder 5g","Neem powder 10g","Oatmeal 15g","Glycerin 25g","Fragrance 2–5g"],steps:["Base melt করুন","Turmeric ও neem sieve করুন","সব উপাদান blend করুন","Fragrance যোগ করুন","Mould করে set করুন"]},
+{name:"নিম সাবান",cat:"Herbal",base:"Melt & Pour base",items:["Soap base 940g","Neem powder 15g","Aloe vera powder 5g","Oatmeal 10g","Glycerin 25g","Fragrance 2–5g"],steps:["Base melt করুন","Powders disperse করুন","Glycerin মেশান","Fragrance যোগ করুন","Mould করে set করুন"]},
+{name:"অ্যালোভেরা ময়েশ্চারাইজিং",cat:"Moisturizing",base:"Clear/white melt & pour base",items:["Soap base 940g","Aloe vera powder 5g","Colloidal oatmeal 10g","Glycerin 30g","Vitamin E 5g","Fragrance 2–5g"],steps:["Base melt করুন","Aloe ও oatmeal disperse করুন","Glycerin ও Vitamin E যোগ করুন","Fragrance শেষে দিন","Mould করে set করুন"]},
+{name:"দুধ-মধু সাবান",cat:"Moisturizing",base:"Milk melt & pour base",items:["Milk soap base 940g","Honey 15g","Oatmeal 10g","Glycerin 25g","Fragrance 2–5g"],steps:["Base melt করুন","Honey অল্প melted base-এ pre-mix করুন","মূল batch-এ যোগ করুন","Oatmeal ও glycerin mix করুন","Mould করে set করুন"]},
+{name:"কফি স্ক্রাব",cat:"Exfoliating",base:"Melt & Pour base",items:["Soap base 930g","Fine coffee powder 20g","Oatmeal 10g","Glycerin 25g","Fragrance 2–5g"],steps:["Base melt করুন","Coffee ও oatmeal sieve করুন","Mix করে uniform dispersion করুন","Fragrance যোগ করুন","Mould করে set করুন"]},
+{name:"চারকোল ক্লিনজিং",cat:"Skin Care",base:"Clear melt & pour base",items:["Soap base 940g","Activated charcoal 8g","Kaolin clay 15g","Glycerin 25g","Fragrance 2–5g"],steps:["Base melt করুন","Charcoal ও clay disperse করুন","Glycerin যোগ করুন","Fragrance শেষে দিন","Mould করে set করুন"]},
+{name:"ওটমিল সেনসিটিভ স্কিন",cat:"Skin Care",base:"Melt & Pour base",items:["Soap base 945g","Colloidal oatmeal 20g","Aloe vera powder 5g","Glycerin 25g","Fragrance 0–2g"],steps:["Base melt করুন","Oatmeal ও aloe disperse করুন","Glycerin যোগ করুন","Sensitive-skin product হলে fragrance বাদ দেওয়া যায়","Mould করে set করুন"]},
+{name:"রোজ হারবাল",cat:"Herbal",base:"Melt & Pour base",items:["Soap base 940g","Rose powder 10g","Oatmeal 10g","Glycerin 25g","Rose fragrance 2–5g"],steps:["Base melt করুন","Powders sieve করুন","Glycerin mix করুন","Fragrance শেষে দিন","Mould করে set করুন"]}
+];
+function render(){let q=document.getElementById("q").value.toLowerCase(),c=document.getElementById("cat").value;
+let a=formulas.filter(x=>(!c||x.cat===c)&&(!q||(x.name+x.cat+x.items.join(" ")).toLowerCase().includes(q)));
+document.getElementById("count").textContent=a.length+"টি ফর্মুলা দেখানো হচ্ছে";
+document.getElementById("grid").innerHTML=a.map(x=>'<article class="card"><span class="badge">'+x.cat+'</span><h2>'+x.name+'</h2><div class="small">Batch: প্রায় 1 kg • Base: '+x.base+'</div><h3>উপাদান</h3><ul>'+x.items.map(i=>'<li>'+i+'</li>').join("")+'</ul><h3>প্রস্তুত প্রণালী</h3><ol>'+x.steps.map(s=>'<li>'+s+'</li>').join("")+'</ol></article>').join("")||'<div class="card">কোনো ফর্মুলা পাওয়া যায়নি।</div>'}
+document.getElementById("q").oninput=render;document.getElementById("cat").onchange=render;render();
+</script></body></html>
