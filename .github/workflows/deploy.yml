@@ -77,6 +77,7 @@ jobs:
           cp mascara-eyeliner.html site/mascara-eyeliner.html
           cp cream-items.html site/cream-items.html
           cp baby-soap.html site/baby-soap.html
+          cp baby-lotion.html site/baby-lotion.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
