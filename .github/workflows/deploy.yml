@@ -31,68 +31,105 @@ jobs:
 
       - name: Add Formula Libraries
         run: |
-          cp soap.html site/soap.html
-          cp shampoo.html site/shampoo.html
-          cp cream.html site/cream.html
-          cp lotion.html site/lotion.html
-          cp facewash.html site/facewash.html
-          cp hair-oil.html site/hair-oil.html
-          cp serum.html site/serum.html
-          cp body-wash.html site/body-wash.html
-          cp scrub.html site/scrub.html
-          cp toner.html site/toner.html
-          cp hair-pack.html site/hair-pack.html
-          cp toilet-cleaner.html site/toilet-cleaner.html
-          cp glass-cleaner.html site/glass-cleaner.html
-          cp floor-cleaner.html site/floor-cleaner.html
-          cp dishwash.html site/dishwash.html
-          cp liquid-handwash.html site/liquid-handwash.html
-          cp laundry-detergent.html site/laundry-detergent.html
-          cp liquid-laundry-detergent.html site/liquid-laundry-detergent.html
-          cp fabric-softener.html site/fabric-softener.html
-          cp glass-surface-polish.html site/glass-surface-polish.html
-          cp dishwasher-liquid.html site/dishwasher-liquid.html
-          cp car-shampoo.html site/car-shampoo.html
-          cp car-interior-cleaner.html site/car-interior-cleaner.html
-          cp car-tire-wheel-cleaner.html site/car-tire-wheel-cleaner.html
-          cp car-glass-windshield-cleaner.html site/car-glass-windshield-cleaner.html
-          cp car-polish-wax.html site/car-polish-wax.html
-          cp car-air-freshener.html site/car-air-freshener.html
-          cp car-engine-degreaser.html site/car-engine-degreaser.html
-          cp car-upholstery-fabric-cleaner.html site/car-upholstery-fabric-cleaner.html
-          cp car-leather-cleaner-conditioner.html site/car-leather-cleaner-conditioner.html
-          cp car-metal-chrome-polish.html site/car-metal-chrome-polish.html
-          cp car-odor-eliminator.html site/car-odor-eliminator.html
-          cp car-plastic-vinyl-cleaner.html site/car-plastic-vinyl-cleaner.html
-          cp car-ac-interior-cleaner.html site/car-ac-interior-cleaner.html
-          cp car-dashboard-polish-dressing.html site/car-dashboard-polish-dressing.html
-          cp car-glass-water-repellent.html site/car-glass-water-repellent.html
-          cp car-antistatic-interior-cleaner.html site/car-antistatic-interior-cleaner.html
-          cp face-mask.html site/face-mask.html
-          cp lip-balm.html site/lip-balm.html
-          cp sunscreen-sun-care.html site/sunscreen-sun-care.html
-          cp lip-scrub.html site/lip-scrub.html
-          cp lip-gloss-lip-oil.html site/lip-gloss-lip-oil.html
-          cp lipstick-lip-color.html site/lipstick-lip-color.html
-          cp mascara-eyeliner.html site/mascara-eyeliner.html
-          cp cream-items.html site/cream-items.html
-          cp baby-soap.html site/baby-soap.html
-          cp baby-lotion.html site/baby-lotion.html
+          # Copy every standalone formula library page into the Pages site.
+          for f in *.html; do
+            [ "$f" = "index.html" ] && continue
+            cp "$f" "site/$f"
+          done
+
           python3 - <<'PY'
           from pathlib import Path
-          p=Path("site/index.html")
-          s=p.read_text(encoding="utf-8")
-          css='''<style>.formula-library-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px;background:linear-gradient(135deg,#7c3aed,#db2777)}.formula-library-button.shampoo{background:linear-gradient(135deg,#0f766e,#2563eb)}.formula-library-button.cream{background:linear-gradient(135deg,#be185d,#7c3aed)}.formula-library-button.lotion{background:linear-gradient(135deg,#047857,#0891b2)}.formula-library-button.facewash{background:linear-gradient(135deg,#0369a1,#4f46e5)}.formula-library-button.hair{background:linear-gradient(135deg,#92400e,#b45309)}.formula-library-button.serum{background:linear-gradient(135deg,#4338ca,#7c3aed)}.formula-library-button.bodywash{background:linear-gradient(135deg,#0f766e,#0891b2)}.formula-library-button.scrub{background:linear-gradient(135deg,#9a3412,#ea580c)}.formula-library-button.toner{background:linear-gradient(135deg,#0e7490,#2563eb)}.formula-library-button.hairpack{background:linear-gradient(135deg,#166534,#65a30d)}.formula-library-button.toilet{background:linear-gradient(135deg,#0f766e,#1d4ed8)}.formula-library-button.glass{background:linear-gradient(135deg,#0284c7,#2563eb)}.formula-library-button.floor{background:linear-gradient(135deg,#166534,#0f766e)}.formula-library-button.dishwash{background:linear-gradient(135deg,#0369a1,#0891b2)}.formula-library-button.handwash{background:linear-gradient(135deg,#0f766e,#0891b2)}.formula-library-button.laundry{background:linear-gradient(135deg,#2563eb,#7c3aed)}.formula-library-button.liquidlaundry{background:linear-gradient(135deg,#0891b2,#2563eb)}.formula-library-button:hover{transform:translateY(-1px)}</style>'''
-          if "formula-library-button" not in s:
-              s=s.replace("</head>",css+"</head>",1)
-          links=[("soap.html","🧼 সাবান ফর্মুলা",""),("shampoo.html","🧴 শ্যাম্পু ফর্মুলা","shampoo"),("cream.html","🧴 ক্রিম ফর্মুলা","cream"),("lotion.html","🧴 লোশন ফর্মুলা","lotion"),("facewash.html","🫧 ফেসওয়াশ ফর্মুলা","facewash"),("hair-oil.html","🌿 হেয়ার অয়েল ফর্মুলা","hair"),("serum.html","✨ সিরাম ফর্মুলা","serum"),("body-wash.html","🫧 বডি ওয়াশ ফর্মুলা","bodywash"),("scrub.html","🧽 স্ক্রাব ফর্মুলা","scrub"),("toner.html","💧 টোনার ফর্মুলা","toner"),("hair-pack.html","🌿 হেয়ার প্যাক ফর্মুলা","hairpack"),("toilet-cleaner.html","🚽 টয়লেট ক্লিনার ফর্মুলা","toilet"),("glass-cleaner.html","🪟 গ্লাস ক্লিনার ফর্মুলা","glass"),("floor-cleaner.html","🧹 ফ্লোর ক্লিনার ফর্মুলা","floor"),("dishwash.html","🍽️ ডিশওয়াশ ফর্মুলা","dishwash"),("liquid-handwash.html","🧴 লিকুইড হ্যান্ডওয়াশ ফর্মুলা","handwash"),("laundry-detergent.html","🧺 লন্ড্রি ডিটারজেন্ট ফর্মুলা","laundry"),("liquid-laundry-detergent.html","🧺 লিকুইড লন্ড্রি ডিটারজেন্ট ফর্মুলা","liquidlaundry"),("fabric-softener.html","🧴 ফ্যাব্রিক সফটেনার ফর্মুলা","softener"),("glass-surface-polish.html","✨ গ্লাস/সারফেস পলিশ ফর্মুলা","polish"),("dishwasher-liquid.html","🍽️ ডিশওয়াশার লিকুইড ফর্মুলা","dishwasher"),("car-shampoo.html","🚗 কার শ্যাম্পু ফর্মুলা","carshampoo"),("car-interior-cleaner.html","🚘 কার ড্যাশবোর্ড/ইন্টেরিয়র ক্লিনার","carinterior"),("car-tire-wheel-cleaner.html","🛞 কার টায়ার/হুইল ক্লিনার","cartire"),("car-glass-windshield-cleaner.html","🪟 কার গ্লাস/উইন্ডশিল্ড ক্লিনার","carglass")]
-          for href,label,cls in links:
-              if href not in s:
-                  button=f'<a href="{href}" class="formula-library-button {cls}" aria-label="{label}">{label}</a>'
-                  s=s.replace("</body>",button+"</body>",1)
-          p.write_text(s,encoding="utf-8")
+          import html
+
+          p = Path("site/index.html")
+          s = p.read_text(encoding="utf-8")
+
+          css = """<style>
+          .formula-library-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px;background:linear-gradient(135deg,#7c3aed,#db2777)}
+          .formula-library-button:hover{transform:translateY(-1px)}
+          .formula-library-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin:18px auto;max-width:1100px}
+          </style>"""
+
+          if "formula-library-grid" not in s:
+              s = s.replace("</head>", css + "</head>", 1)
+
+          files = sorted(
+              x.name for x in Path(".").glob("*.html")
+              if x.name != "index.html"
+          )
+
+          labels = {
+              "baby-soap.html":"👶 Baby Soap",
+              "baby-lotion.html":"👶 Baby Lotion",
+              "soap.html":"🧼 Soap",
+              "shampoo.html":"🧴 Shampoo",
+              "cream.html":"🧴 Cream",
+              "cream-items.html":"🧴 Cream Items",
+              "lotion.html":"🧴 Lotion",
+              "facewash.html":"🫧 Face Wash",
+              "face-mask.html":"🎭 Face Mask",
+              "hair-oil.html":"🌿 Hair Oil",
+              "hair-pack.html":"🌿 Hair Pack",
+              "serum.html":"✨ Serum",
+              "body-wash.html":"🫧 Body Wash",
+              "scrub.html":"🧽 Scrub",
+              "toner.html":"💧 Toner",
+              "lip-balm.html":"💋 Lip Balm",
+              "lip-scrub.html":"💋 Lip Scrub",
+              "lip-gloss-lip-oil.html":"💋 Lip Gloss & Oil",
+              "lipstick-lip-color.html":"💄 Lipstick & Lip Color",
+              "mascara-eyeliner.html":"👁️ Mascara & Eyeliner",
+              "sunscreen-sun-care.html":"☀️ Sunscreen & Sun Care",
+              "toilet-cleaner.html":"🚽 Toilet Cleaner",
+              "glass-cleaner.html":"🪟 Glass Cleaner",
+              "floor-cleaner.html":"🧹 Floor Cleaner",
+              "dishwash.html":"🍽️ Dishwash",
+              "liquid-handwash.html":"🧴 Liquid Handwash",
+              "laundry-detergent.html":"🧺 Laundry Detergent",
+              "liquid-laundry-detergent.html":"🧺 Liquid Laundry Detergent",
+              "fabric-softener.html":"🧴 Fabric Softener",
+              "glass-surface-polish.html":"✨ Glass/Surface Polish",
+              "dishwasher-liquid.html":"🍽️ Dishwasher Liquid",
+              "car-shampoo.html":"🚗 Car Shampoo",
+              "car-interior-cleaner.html":"🚘 Car Interior Cleaner",
+              "car-tire-wheel-cleaner.html":"🛞 Car Tire & Wheel Cleaner",
+              "car-glass-windshield-cleaner.html":"🪟 Car Glass & Windshield Cleaner",
+              "car-polish-wax.html":"✨ Car Polish & Wax",
+              "car-air-freshener.html":"🌬️ Car Air Freshener",
+              "car-engine-degreaser.html":"🛠️ Car Engine Degreaser",
+              "car-upholstery-fabric-cleaner.html":"🪑 Car Upholstery & Fabric",
+              "car-leather-cleaner-conditioner.html":"🧴 Car Leather Cleaner",
+              "car-metal-chrome-polish.html":"✨ Car Metal & Chrome Polish",
+              "car-odor-eliminator.html":"🌬️ Car Odor Eliminator",
+              "car-plastic-vinyl-cleaner.html":"🚘 Car Plastic & Vinyl Cleaner",
+              "car-ac-interior-cleaner.html":"❄️ Car AC & Interior Cleaner",
+              "car-dashboard-polish-dressing.html":"✨ Car Dashboard Polish",
+              "car-glass-water-repellent.html":"💧 Car Glass Water Repellent",
+              "car-antistatic-interior-cleaner.html":"⚡ Car Anti-Static Cleaner"
+          }
+
+          buttons = []
+          for f in files:
+              label = labels.get(f, Path(f).stem.replace("-", " ").title())
+              buttons.append(
+                  f'<a href="{html.escape(f)}" class="formula-library-button" aria-label="{html.escape(label)}">{html.escape(label)}</a>'
+              )
+
+          section = '<section id="formula-libraries" class="formula-library-grid" aria-label="Formula Libraries">' + "".join(buttons) + "</section>"
+
+          if 'id="formula-libraries"' in s:
+              import re
+              s = re.sub(r'<section id="formula-libraries".*?</section>', section, s, count=1, flags=re.S)
+          else:
+              s = s.replace("</body>", section + "</body>", 1)
+
+          p.write_text(s, encoding="utf-8")
           PY
-          for f in soap.html shampoo.html cream.html lotion.html facewash.html hair-oil.html serum.html body-wash.html scrub.html toner.html hair-pack.html toilet-cleaner.html glass-cleaner.html floor-cleaner.html dishwash.html liquid-handwash.html laundry-detergent.html liquid-laundry-detergent.html fabric-softener.html glass-surface-polish.html dishwasher-liquid.html car-shampoo.html car-interior-cleaner.html car-tire-wheel-cleaner.html car-glass-windshield-cleaner.html; do test -f "site/$f"; done
+
+          for f in *.html; do
+            [ "$f" = "index.html" ] && continue
+            test -f "site/$f"
+          done
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
