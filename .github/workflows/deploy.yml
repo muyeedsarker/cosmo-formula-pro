@@ -1,144 +1,27 @@
 name: Deploy Cosmo Formula Pro to GitHub Pages
-
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Extract website
-        run: |
-          rm -rf site extracted
-          mkdir -p site
-          unzip -q cosmo-formula-pro-redesigned.zip -d extracted
-          cp -R extracted/cosmo-formula-pro/. site/
-          test -f site/index.html
-
-      - name: Add Formula Libraries
-        run: |
-          # Copy every standalone formula library page into the Pages site.
-          for f in *.html; do
-            [ "$f" = "index.html" ] && continue
-            cp "$f" "site/$f"
-          done
-
-          python3 - <<'PY'
-          from pathlib import Path
-          import html
-
-          p = Path("site/index.html")
-          s = p.read_text(encoding="utf-8")
-
-          css = """<style>
-          .formula-library-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px;background:linear-gradient(135deg,#7c3aed,#db2777)}
-          .formula-library-button:hover{transform:translateY(-1px)}
-          .formula-library-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin:18px auto;max-width:1100px}
-          </style>"""
-
-          if "formula-library-grid" not in s:
-              s = s.replace("</head>", css + "</head>", 1)
-
-          files = sorted(
-              x.name for x in Path(".").glob("*.html")
-              if x.name != "index.html"
-          )
-
-          labels = {
-              "baby-soap.html":"👶 Baby Soap",
-              "baby-lotion.html":"👶 Baby Lotion",
-              "soap.html":"🧼 Soap",
-              "shampoo.html":"🧴 Shampoo",
-              "cream.html":"🧴 Cream",
-              "cream-items.html":"🧴 Cream Items",
-              "lotion.html":"🧴 Lotion",
-              "facewash.html":"🫧 Face Wash",
-              "face-mask.html":"🎭 Face Mask",
-              "hair-oil.html":"🌿 Hair Oil",
-              "hair-pack.html":"🌿 Hair Pack",
-              "serum.html":"✨ Serum",
-              "body-wash.html":"🫧 Body Wash",
-              "scrub.html":"🧽 Scrub",
-              "toner.html":"💧 Toner",
-              "lip-balm.html":"💋 Lip Balm",
-              "lip-scrub.html":"💋 Lip Scrub",
-              "lip-gloss-lip-oil.html":"💋 Lip Gloss & Oil",
-              "lipstick-lip-color.html":"💄 Lipstick & Lip Color",
-              "mascara-eyeliner.html":"👁️ Mascara & Eyeliner",
-              "sunscreen-sun-care.html":"☀️ Sunscreen & Sun Care",
-              "toilet-cleaner.html":"🚽 Toilet Cleaner",
-              "glass-cleaner.html":"🪟 Glass Cleaner",
-              "floor-cleaner.html":"🧹 Floor Cleaner",
-              "dishwash.html":"🍽️ Dishwash",
-              "liquid-handwash.html":"🧴 Liquid Handwash",
-              "laundry-detergent.html":"🧺 Laundry Detergent",
-              "liquid-laundry-detergent.html":"🧺 Liquid Laundry Detergent",
-              "fabric-softener.html":"🧴 Fabric Softener",
-              "glass-surface-polish.html":"✨ Glass/Surface Polish",
-              "dishwasher-liquid.html":"🍽️ Dishwasher Liquid",
-              "car-shampoo.html":"🚗 Car Shampoo",
-              "car-interior-cleaner.html":"🚘 Car Interior Cleaner",
-              "car-tire-wheel-cleaner.html":"🛞 Car Tire & Wheel Cleaner",
-              "car-glass-windshield-cleaner.html":"🪟 Car Glass & Windshield Cleaner",
-              "car-polish-wax.html":"✨ Car Polish & Wax",
-              "car-air-freshener.html":"🌬️ Car Air Freshener",
-              "car-engine-degreaser.html":"🛠️ Car Engine Degreaser",
-              "car-upholstery-fabric-cleaner.html":"🪑 Car Upholstery & Fabric",
-              "car-leather-cleaner-conditioner.html":"🧴 Car Leather Cleaner",
-              "car-metal-chrome-polish.html":"✨ Car Metal & Chrome Polish",
-              "car-odor-eliminator.html":"🌬️ Car Odor Eliminator",
-              "car-plastic-vinyl-cleaner.html":"🚘 Car Plastic & Vinyl Cleaner",
-              "car-ac-interior-cleaner.html":"❄️ Car AC & Interior Cleaner",
-              "car-dashboard-polish-dressing.html":"✨ Car Dashboard Polish",
-              "car-glass-water-repellent.html":"💧 Car Glass Water Repellent",
-              "car-antistatic-interior-cleaner.html":"⚡ Car Anti-Static Cleaner"
-          }
-
-          buttons = []
-          for f in files:
-              label = labels.get(f, Path(f).stem.replace("-", " ").title())
-              buttons.append(
-                  f'<a href="{html.escape(f)}" class="formula-library-button" aria-label="{html.escape(label)}">{html.escape(label)}</a>'
-              )
-
-          section = '<section id="formula-libraries" class="formula-library-grid" aria-label="Formula Libraries">' + "".join(buttons) + "</section>"
-
-          if 'id="formula-libraries"' in s:
-              import re
-              s = re.sub(r'<section id="formula-libraries".*?</section>', section, s, count=1, flags=re.S)
-          else:
-              s = s.replace("</body>", section + "</body>", 1)
-
-          p.write_text(s, encoding="utf-8")
-          PY
-
-          for f in *.html; do
-            [ "$f" = "index.html" ] && continue
-            test -f "site/$f"
-          done
-
       - name: Setup Pages
         uses: actions/configure-pages@v5
-
-      - name: Upload artifact
+      - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
-
+          path: .
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
