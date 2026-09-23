@@ -61,6 +61,7 @@ jobs:
           cp car-engine-degreaser.html site/car-engine-degreaser.html
           cp car-upholstery-fabric-cleaner.html site/car-upholstery-fabric-cleaner.html
           cp car-leather-cleaner-conditioner.html site/car-leather-cleaner-conditioner.html
+          cp car-metal-chrome-polish.html site/car-metal-chrome-polish.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
