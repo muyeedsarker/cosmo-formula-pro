@@ -72,6 +72,7 @@ jobs:
           cp lip-balm.html site/lip-balm.html
           cp sunscreen-sun-care.html site/sunscreen-sun-care.html
           cp lip-scrub.html site/lip-scrub.html
+          cp lip-gloss-lip-oil.html site/lip-gloss-lip-oil.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
