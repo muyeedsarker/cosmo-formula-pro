@@ -29,24 +29,29 @@ jobs:
           cp -R extracted/cosmo-formula-pro/. site/
           test -f site/index.html
 
-      - name: Add Soap Formula Library
+      - name: Add Formula Libraries
         run: |
           cp soap.html site/soap.html
+          cp shampoo.html site/shampoo.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
           s=p.read_text(encoding="utf-8")
-          if "soap.html" not in s:
-              button='''<a href="soap.html" class="soap-formula-button" aria-label="Soap Formula Library">🧼 সাবান ফর্মুলা</a>'''
-              css='''<style>.soap-formula-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px}.soap-formula-button:hover{transform:translateY(-1px)}</style>'''
+          links = [
+              ('soap.html','🧼 সাবান ফর্মুলা','soap-formula-button'),
+              ('shampoo.html','🧴 শ্যাম্পু ফর্মুলা','shampoo-formula-button')
+          ]
+          css='''<style>.formula-library-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px;background:linear-gradient(135deg,#7c3aed,#db2777)}.formula-library-button.shampoo{background:linear-gradient(135deg,#0f766e,#2563eb)}.formula-library-button:hover{transform:translateY(-1px)}</style>'''
+          if "formula-library-button" not in s:
               s=s.replace("</head>",css+"</head>",1)
-              if "</body>" in s:
+          for href,label,cls in links:
+              if href not in s:
+                  button=f'<a href="{href}" class="formula-library-button {"shampoo" if href=="shampoo.html" else ""}" aria-label="{label}">{label}</a>'
                   s=s.replace("</body>",button+"</body>",1)
-              else:
-                  s+=button
-              p.write_text(s,encoding="utf-8")
+          p.write_text(s,encoding="utf-8")
           PY
           test -f site/soap.html
+          test -f site/shampoo.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
