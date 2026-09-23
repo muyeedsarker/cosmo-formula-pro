@@ -70,6 +70,7 @@ jobs:
           cp car-antistatic-interior-cleaner.html site/car-antistatic-interior-cleaner.html
           cp face-mask.html site/face-mask.html
           cp lip-balm.html site/lip-balm.html
+          cp sunscreen-sun-care.html site/sunscreen-sun-care.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
