@@ -41,21 +41,22 @@ jobs:
           cp body-wash.html site/body-wash.html
           cp scrub.html site/scrub.html
           cp toner.html site/toner.html
+          cp hair-pack.html site/hair-pack.html
           python3 - <<'PY'
           from pathlib import Path
           p=Path("site/index.html")
           s=p.read_text(encoding="utf-8")
-          css='''<style>.formula-library-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px;background:linear-gradient(135deg,#7c3aed,#db2777)}.formula-library-button.shampoo{background:linear-gradient(135deg,#0f766e,#2563eb)}.formula-library-button.cream{background:linear-gradient(135deg,#be185d,#7c3aed)}.formula-library-button.lotion{background:linear-gradient(135deg,#047857,#0891b2)}.formula-library-button.facewash{background:linear-gradient(135deg,#0369a1,#4f46e5)}.formula-library-button.hair{background:linear-gradient(135deg,#92400e,#b45309)}.formula-library-button.serum{background:linear-gradient(135deg,#4338ca,#7c3aed)}.formula-library-button.bodywash{background:linear-gradient(135deg,#0f766e,#0891b2)}.formula-library-button.scrub{background:linear-gradient(135deg,#9a3412,#ea580c)}.formula-library-button.toner{background:linear-gradient(135deg,#0e7490,#2563eb)}.formula-library-button:hover{transform:translateY(-1px)}</style>'''
+          css='''<style>.formula-library-button{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;color:#fff!important;text-decoration:none;font-weight:700;box-shadow:0 5px 18px #0002;margin:6px;background:linear-gradient(135deg,#7c3aed,#db2777)}.formula-library-button.shampoo{background:linear-gradient(135deg,#0f766e,#2563eb)}.formula-library-button.cream{background:linear-gradient(135deg,#be185d,#7c3aed)}.formula-library-button.lotion{background:linear-gradient(135deg,#047857,#0891b2)}.formula-library-button.facewash{background:linear-gradient(135deg,#0369a1,#4f46e5)}.formula-library-button.hair{background:linear-gradient(135deg,#92400e,#b45309)}.formula-library-button.serum{background:linear-gradient(135deg,#4338ca,#7c3aed)}.formula-library-button.bodywash{background:linear-gradient(135deg,#0f766e,#0891b2)}.formula-library-button.scrub{background:linear-gradient(135deg,#9a3412,#ea580c)}.formula-library-button.toner{background:linear-gradient(135deg,#0e7490,#2563eb)}.formula-library-button.hairpack{background:linear-gradient(135deg,#166534,#65a30d)}.formula-library-button:hover{transform:translateY(-1px)}</style>'''
           if "formula-library-button" not in s:
               s=s.replace("</head>",css+"</head>",1)
-          links=[("soap.html","🧼 সাবান ফর্মুলা",""),("shampoo.html","🧴 শ্যাম্পু ফর্মুলা","shampoo"),("cream.html","🧴 ক্রিম ফর্মুলা","cream"),("lotion.html","🧴 লোশন ফর্মুলা","lotion"),("facewash.html","🫧 ফেসওয়াশ ফর্মুলা","facewash"),("hair-oil.html","🌿 হেয়ার অয়েল ফর্মুলা","hair"),("serum.html","✨ সিরাম ফর্মুলা","serum"),("body-wash.html","🫧 বডি ওয়াশ ফর্মুলা","bodywash"),("scrub.html","🧽 স্ক্রাব ফর্মুলা","scrub"),("toner.html","💧 টোনার ফর্মুলা","toner")]
+          links=[("soap.html","🧼 সাবান ফর্মুলা",""),("shampoo.html","🧴 শ্যাম্পু ফর্মুলা","shampoo"),("cream.html","🧴 ক্রিম ফর্মুলা","cream"),("lotion.html","🧴 লোশন ফর্মুলা","lotion"),("facewash.html","🫧 ফেসওয়াশ ফর্মুলা","facewash"),("hair-oil.html","🌿 হেয়ার অয়েল ফর্মুলা","hair"),("serum.html","✨ সিরাম ফর্মুলা","serum"),("body-wash.html","🫧 বডি ওয়াশ ফর্মুলা","bodywash"),("scrub.html","🧽 স্ক্রাব ফর্মুলা","scrub"),("toner.html","💧 টোনার ফর্মুলা","toner"),("hair-pack.html","🌿 হেয়ার প্যাক ফর্মুলা","hairpack")]
           for href,label,cls in links:
               if href not in s:
                   button=f'<a href="{href}" class="formula-library-button {cls}" aria-label="{label}">{label}</a>'
                   s=s.replace("</body>",button+"</body>",1)
           p.write_text(s,encoding="utf-8")
           PY
-          for f in soap.html shampoo.html cream.html lotion.html facewash.html hair-oil.html serum.html body-wash.html scrub.html toner.html; do test -f "site/$f"; done
+          for f in soap.html shampoo.html cream.html lotion.html facewash.html hair-oil.html serum.html body-wash.html scrub.html toner.html hair-pack.html; do test -f "site/$f"; done
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
